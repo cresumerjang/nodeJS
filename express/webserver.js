@@ -32,4 +32,16 @@ app
             timestamp : new Date()
         };
         res.render('home', viewModel);
+    })
+    // 404 핸들러 미들웨어 등록
+    .use(function(req, res, next){
+        res
+            .status(404)
+            .render('error/404');
+    })
+    // 500 핸들러 미들웨어 등록
+    .use(function(err, req, res, next){
+        res
+            .status(500)
+            .render('error/500');
     });
