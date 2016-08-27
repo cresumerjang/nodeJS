@@ -40,6 +40,16 @@ app
         };
         res.render('home', viewModel);
     })
+    .get('/form', function(req, res){
+        var viewModel = {
+            requestAPI : '/process'
+        };
+        res.render('form', viewModel);
+    })
+    .get('/process', function(req, res){
+        // console.log(req);
+        console.log(req.query);
+    })
     // 404 핸들러 미들웨어 등록
     .use(function(req, res, next){
         res
