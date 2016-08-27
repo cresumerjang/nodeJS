@@ -1,6 +1,8 @@
 var express = require('express'),
     app = express(),
-    handlebars = require('express-handlebars').create({ defaultLayout : 'main' });
+    handlebars = require('express-handlebars')
+    .create({ defaultLayout : 'main' });
+    // require('express-handlebars').({ extname : '.hbs' }) // 확장자 변경가능
 
 var ms = require('./app/random_message.js');
 // var appConfig = {
@@ -18,6 +20,8 @@ app
     // 핸들바 엔진 미들웨어 등록
     .engine('handlebars', handlebars.engine)
     .set('view engine', 'handlebars')
+    // 서버 측 템플릿 사용시 캐싱가능 개발모드 false, 릴리즈 true
+    // .set('view cache', true) // 서버측 뷰 캐싱 활성화 강제
     // static resource serving 미들웨어 등록
     .use(express.static(__dirname + '/static'))
     .listen(3000, function(){
@@ -31,7 +35,8 @@ app
         var viewModel = {
             title : 'SUPERJANG!!',
             timestamp : new Date(),
-            randomMsg : ms.getRandomMsg()
+            randomMsg : ms.getRandomMsg(),
+            layout : 'search' // 뷰 컨텍스트에 layout 값으로 레이아웃 템플릿 선언 -> views/layout/search.handlebars
         };
         res.render('home', viewModel);
     })
