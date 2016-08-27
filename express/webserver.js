@@ -2,6 +2,7 @@ var express = require('express'),
     app = express(),
     handlebars = require('express-handlebars').create({ defaultLayout : 'main' });
 
+var ms = require('./app/random_message.js');
 // var appConfig = {
 //     port : 3000,
 //     staticPath : 'static',
@@ -29,7 +30,8 @@ app
     .get('/', function(req, res){
         var viewModel = {
             title : 'SUPERJANG!!',
-            timestamp : new Date()
+            timestamp : new Date(),
+            randomMsg : ms.getRandomMsg()
         };
         res.render('home', viewModel);
     })
