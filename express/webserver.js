@@ -27,5 +27,9 @@ app
 app
     // main
     .get('/', function(req, res){
-        res.render('home');
+        var viewModel = {
+            title : 'SUPERJANG!!',
+            timestamp : new Date()
+        };
+        res.render('home', viewModel);
     });
