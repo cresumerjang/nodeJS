@@ -1,5 +1,6 @@
 var express = require('express'),
-    app = express();
+    app = express(),
+    handlebars = require('express-handlebars').create({ defaultLayout : 'main' });
 
 // var appConfig = {
 //     port : 3000,
@@ -13,8 +14,11 @@ var express = require('express'),
 // };
 
 app
-    // 스태틱 리소스 root dir 지정
-    .use(express.static('statice'))
+    // 핸들바 엔진 미들웨어 등록
+    .engine('handlebars', handlebars.engine)
+    .set('view engine', 'handlebars')
+    // static resource serving 미들웨어 등록
+    .use(express.static(__dirname + '/static'))
     .listen(3000, function(){
         console.log('connected port 3000');
     });
@@ -23,5 +27,5 @@ app
 app
     // main
     .get('/', function(req, res){
-        res.send('200');
+        res.render('home');
     });
