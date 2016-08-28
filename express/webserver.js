@@ -24,6 +24,8 @@ app
     // .set('view cache', true) // 서버측 뷰 캐싱 활성화 강제
     // static resource serving 미들웨어 등록
     .use(express.static(__dirname + '/static'))
+    // form, ajax 데이터 본문 파싱을 위한 body-parser 등록
+    .use(require('body-parser').urlencoded({ extended : true }))
     .listen(3000, function(){
         console.log('connected port 3000');
     });
@@ -42,13 +44,27 @@ app
     })
     .get('/form', function(req, res){
         var viewModel = {
-            requestAPI : '/process'
+            requestAPI : '/process',
+            csrf : 'blabla security code'
         };
         res.render('form', viewModel);
     })
-    .get('/process', function(req, res){
-        // console.log(req);
+    .post('/process', function(req, res){
+        // req.query 쿼리
+        // req.body 본문
         console.log(req.query);
+        console.log(req.body._csrf);
+        console.log(req.body.nameField);
+        console.log(req.body.emailField);
+        res.redirect(303, '/'); // status, URI path
+    })
+    .post('/ajax', function(req, res){
+        if(req.xhr || req.accepts('json, html') === 'json'){
+            console.log('data',req.body);
+            res.send({success:true});
+        }else{
+            res.send({error:'ERRor!!!'});
+        }
     })
     // 404 핸들러 미들웨어 등록
     .use(function(req, res, next){

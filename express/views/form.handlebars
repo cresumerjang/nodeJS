@@ -1,6 +1,33 @@
-<form class="" action="{{{requestAPI}}}" method="get">
-    <input type="hidden" name="hiddenField" value="hidden filed data"/>
+<form class="formUI" action="{{{requestAPI}}}?view=formHbs" method="post">
+    <input type="hidden" name="_csrf" value="{{csrf}}"/>
     <label for="nameField">NAME : </label>
     <input type="text" name="nameField" id="nameField" value="SUPERJANG"/>
-    <input type="submit" value="전송"/>
+    <label for="nameField">Email : </label>
+    <input type="text" name="emailField" id="email" value="" required/>
+    <button type="submit" id="btn">전송</button>
 </form>
+
+<script type="text/javascript">
+    // ajax TEST code
+    $(function(){
+        var action = $('.formUI').attr('action');
+        $('.formUI').on('submit',function(e){
+            e.preventDefault();
+            $.ajax({
+                url : '/ajax',
+                type : 'POST',
+                data : $(this).serialize(),
+                success : function(data){
+                    if(data.success){
+                        console.log(data);
+                    }else{
+
+                    }
+                },
+                error : function(){
+                    console.log('Error');
+                }
+            })
+        });
+    });
+</script>
