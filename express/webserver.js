@@ -1,5 +1,6 @@
 var express = require('express'),
     app = express(),
+    formidable = require('formidable'),
     handlebars = require('express-handlebars')
     .create({ defaultLayout : 'main' });
     // require('express-handlebars').({ extname : '.hbs' }) // 확장자 변경가능
@@ -41,6 +42,16 @@ app
             layout : 'search' // 뷰 컨텍스트에 layout 값으로 레이아웃 템플릿 선언 -> views/layout/search.handlebars
         };
         res.render('home', viewModel);
+    })
+    .get('/upload', function(req, res){
+        res.render('upload');
+    })
+    .post('/uploadPhoto', function(req, res){
+        var form = new formidable.IncomingForm();
+        form.parse(req, function(err, fields, files){
+            console.log('fields',fields);
+            console.log('files',files);
+        });
     })
     .get('/form', function(req, res){
         var viewModel = {
